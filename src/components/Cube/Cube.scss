@@ -1,0 +1,42 @@
+@import "../../variables.scss";
+
+.cube {
+  box-sizing: content-box;
+  width: 15px;
+  height: 15px;
+  position: relative;
+  outline: 1px solid transparent;
+  //border: 1px solid white;
+  cursor: pointer;
+  /*Animation*/
+  transition: all .3s linear;
+
+  &:hover {
+    outline: 1px solid #000000E5;
+  }
+
+  &_stock {
+    background: $gray-color;
+
+    &:hover {
+      outline: 1px solid #00000080;
+    }
+  }
+
+  &_low {
+    background: $light-blue;
+  }
+
+  &_mid {
+    background: $blue;
+  }
+
+  &_high {
+    background: $dark-blue;
+  }
+
+  &_very-high {
+    background: $deep-blue;
+  }
+
+}

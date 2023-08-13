@@ -1,0 +1,64 @@
+@import "../../variables.scss";
+
+.graph {
+  width: min-content;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  row-gap: 5px;
+  column-gap: 3px;
+
+  &__months {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column: 2/-1;
+    align-self: center;
+    justify-self: center;
+    width: 850px;
+  }
+
+  &__month {
+    margin: 0;
+    /*font*/
+    font-family: Inter, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 15px;
+    text-align: center;
+    color: $gray-font;
+  }
+
+  &__days {
+    display: flex;
+    flex-direction: column;
+    grid-row: 2/3;
+    grid-column: 1/2;
+
+    & p {
+      height: 17px;
+      margin: 0;
+      user-select: none;
+
+      /*font*/
+      font-family: Inter, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 15px;
+      text-align: center;
+      color: $gray-font;
+
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__row {
+    gap: 2px;
+    display: grid;
+    grid-template-columns: repeat(51, 15px);
+  }
+
+}
