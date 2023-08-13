@@ -1,7 +1,7 @@
 import React from 'react';
 import './Cube.scss';
 
-const Cube = ({quantity,  onClick}) => {
+const Cube = ({quantity, onClick, isSelected}) => {
 
   function determinationClass(quantity) {
     if (quantity < 1) {
@@ -18,7 +18,7 @@ const Cube = ({quantity,  onClick}) => {
   }
 
   return (
-    <div className={`cube cube_${determinationClass(quantity)}`} onClick={onClick}>
+    <div className={`cube cube_${determinationClass(quantity)} ${isSelected && 'cube_selected'}`} onClick={onClick}>
 
     </div>
   );

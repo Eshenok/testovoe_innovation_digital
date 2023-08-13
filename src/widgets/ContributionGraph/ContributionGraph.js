@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { parse, format } from 'date-fns';
 import Cube from "../../components/Cube/Cube";
 import './ContributionGraph.scss';
 import { createCalendarGraph } from "../helpers/createCalendarGraph";
@@ -14,10 +13,13 @@ const ContributionGraph = () => {
     'Июль', 'Авг.', 'Сент.', 'Окт.', 'Нояб.', 'Дек.'
   ];
 
+  const [selectedCube, setSelectedCube] = useState({});
   const [data, setData] = useState(false);
   const [popupData, setPopupData] = useState({"isOpen": false, "x": 0, "y": 0, "quantity": '', "date": ''});
 
   useEffect(() => {
+    window.removeEventListener('keydown', onPressEsc);
+    window.addEventListener('keydown', onPressEsc);
     if (!data) {
       getJson().then(res => setData(res));
     }
@@ -39,15 +41,18 @@ const ContributionGraph = () => {
     return sortedMonths.reverse().map((elem, i) => <p key={i} className={"graph__month"}>{elem}</p>);
   }
 
-  const showPopup = (e, day) => {
-    if (day.quantity > 0) {
-      const elemPositiion = e.target.getBoundingClientRect();
-      const date = day.date.split('/');
-      const stringDate = date[3]+', '+date[1]+', '+date[0]+', '+ date[2];
+  const onSelectCube = (e, day) => {
+    setSelectedCube(day);
+    const elemPositiion = e.target.getBoundingClientRect();
+    const date = day.date.split('/');
+    const stringDate = date[3]+', '+date[1]+', '+date[0]+', '+ date[2];
 
-      setPopupData({"isOpen": true, x: elemPositiion.x, y: elemPositiion.y, date: stringDate, quantity: day.quantity});
-    } else {
-      setPopupData({...popupData, isOpen: false})
+    setPopupData({"isOpen": true, x: elemPositiion.x, y: elemPositiion.y, date: stringDate, quantity: day.quantity});
+  }
+
+  function onPressEsc(e) {
+    if (e.key === 'Escape') {
+      setPopupData({...popupData, isOpen: false});
     }
   }
 
@@ -70,37 +75,37 @@ const ContributionGraph = () => {
       <div className={"graph__container"}>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Пн' ? <Cube key={day.date} onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} /> : false))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Пн' && <Cube isSelected={day.date === selectedCube.date} key={day.date} onClick={(e) => {onSelectCube(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Вт' && <Cube key={day.date} onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Вт' && <Cube isSelected={day.date === selectedCube.date} key={day.date} onClick={(e) => {onSelectCube(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Ср' && <Cube key={day.date} onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Ср' && <Cube isSelected={day.date === selectedCube.date} key={day.date} onClick={(e) => {onSelectCube(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Чт' && <Cube key={day.date} onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Чт' && <Cube isSelected={day.date === selectedCube.date} key={day.date} onClick={(e) => {onSelectCube(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Пт' && <Cube key={day.date} onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Пт' && <Cube isSelected={day.date === selectedCube.date} key={day.date} onClick={(e) => {onSelectCube(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Сб' && <Cube key={day.date} onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Сб' && <Cube isSelected={day.date === selectedCube.date} key={day.date} onClick={(e) => {onSelectCube(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Вс' && <Cube key={day.date} onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Вс' && <Cube isSelected={day.date === selectedCube.date} key={day.date} onClick={(e) => {onSelectCube(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
       </div>
