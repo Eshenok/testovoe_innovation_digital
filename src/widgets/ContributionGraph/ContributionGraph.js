@@ -82,7 +82,7 @@ const ContributionGraph = () => {
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Сб' && <Cube quantity={2} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Сб' && <Cube quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
