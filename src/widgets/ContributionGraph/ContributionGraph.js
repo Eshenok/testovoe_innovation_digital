@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { parse, format } from 'date-fns';
 import Cube from "../../components/Cube/Cube";
 import './ContributionGraph.scss';
 import { createCalendarGraph } from "../helpers/createCalendarGraph";
 import { getJson } from "../helpers/fetchData";
+import Popup from "../../components/Popup/Popup";
 
 const ContributionGraph = () => {
 
@@ -13,6 +15,7 @@ const ContributionGraph = () => {
   ];
 
   const [data, setData] = useState(false);
+  const [popupData, setPopupData] = useState({"isOpen": false, "x": 0, "y": 0, "quantity": '', "date": ''});
 
   useEffect(() => {
     if (!data) {
@@ -36,7 +39,17 @@ const ContributionGraph = () => {
     return sortedMonths.reverse().map(elem => <p className={"graph__month"}>{elem}</p>);
   }
 
-  console.log(data);
+  const showPopup = (e, day) => {
+    if (day.quantity > 0) {
+      const elemPositiion = e.target.getBoundingClientRect();
+      const date = day.date.split('/');
+      const stringDate = date[3]+', '+date[1]+', '+date[0]+', '+ date[2];
+
+      setPopupData({"isOpen": true, x: elemPositiion.x, y: elemPositiion.y, date: stringDate, quantity: day.quantity});
+    } else {
+      setPopupData({...popupData, isOpen: false})
+    }
+  }
 
   return (
     <div className={"graph"}>
@@ -57,40 +70,41 @@ const ContributionGraph = () => {
       <div className={"graph__container"}>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Пн' ? <Cube quantity={day.quantity} day={day} /> : false))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Пн' ? <Cube onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} /> : false))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Вт' && <Cube quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Вт' && <Cube onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Ср' && <Cube quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Ср' && <Cube onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Чт' && <Cube quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Чт' && <Cube onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Пт' && <Cube quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Пт' && <Cube onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Сб' && <Cube quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Сб' && <Cube onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
         <div className={"graph__row"}>
           {
-            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Вс' && <Cube quantity={day.quantity} day={day} />))
+            graph.map(elem => elem.map(day => day.date.slice(-2) === 'Вс' && <Cube onClick={(e) => {showPopup(e, day)}} quantity={day.quantity} day={day} />))
           }
         </div>
       </div>
+      <Popup isOpen={popupData.isOpen} x={popupData.x} y={popupData.y} date={popupData.date} quantity={popupData.quantity}/>
     </div>
   );
 };

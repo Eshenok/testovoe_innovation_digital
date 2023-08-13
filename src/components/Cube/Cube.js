@@ -1,7 +1,7 @@
 import React from 'react';
 import './Cube.scss';
 
-const Cube = ({quantity, day}) => {
+const Cube = ({quantity,  onClick}) => {
 
   function determinationClass(quantity) {
     if (quantity < 1) {
@@ -18,7 +18,7 @@ const Cube = ({quantity, day}) => {
   }
 
   return (
-    <div className={`cube cube_${determinationClass(quantity)}`} onClick={() => {console.log(day)}}>
+    <div className={`cube cube_${determinationClass(quantity)}`} onClick={onClick}>
 
     </div>
   );

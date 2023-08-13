@@ -1,0 +1,57 @@
+@import "../../variables.scss";
+
+.popup {
+  z-index: 2;
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  box-sizing: border-box;
+  width: 145px;
+  background: #000000;
+  border-radius: 3px;
+  padding: 5px 9px 6px;
+  //top: calc(129.92897033691406px - 47px);
+  //left: calc(261.960205078125px - (145px/2) + (15px/2));
+  /*anim*/
+  transition: all .3s linear;
+
+  &_open {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &::after {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    content: '';
+    background: transparent url("../../images/corner.svg") bottom no-repeat;
+    width: 100%;
+    height: 8px;
+    display: block;
+  }
+
+  &__title {
+    margin: 0;
+    width: 100%;
+    /*font*/
+    font-family: Inter, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 15px;
+    text-align: center;
+    color: white;
+  }
+
+  &__date {
+    margin: 4px 0 0;
+    width: 100%;
+    /*font*/
+    font-family: Inter, Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12px;
+    text-align: center;
+    color: $dark-gray-font;
+  }
+}
